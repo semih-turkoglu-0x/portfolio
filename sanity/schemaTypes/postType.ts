@@ -23,8 +23,12 @@ export const postType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'image',
-      type: 'image',
+      name: 'summary',
+      title: 'Summary',
+      type: 'text',
+      rows: 3,
+      description: 'Optional short intro shown at the top of the post.',
+      validation: (rule) => rule.max(200),
     }),
     defineField({
       name: 'body',

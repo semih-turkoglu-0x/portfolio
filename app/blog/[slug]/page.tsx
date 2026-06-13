@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { PortableText } from "@portabletext/react";
 
+import { LikeButton } from "@/components/like-button";
 import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 // Statically render and revalidate at most once a minute (ISR).
@@ -48,10 +47,6 @@ export default async function PostPage({ params }: PageProps) {
 
   if (!post) notFound();
 
-  const imageUrl = post.image
-    ? urlFor(post.image).width(1280).height(720).fit("crop").url()
-    : null;
-
   return (
     <main className="flex flex-1 items-start px-6 py-24">
       <article className="mx-auto flex w-full max-w-2xl flex-col gap-10">
@@ -75,15 +70,10 @@ export default async function PostPage({ params }: PageProps) {
           )}
         </div>
 
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={post.title ?? ""}
-            width={1280}
-            height={720}
-            className="rounded-lg border border-border"
-            priority
-          />
+        {post.summary && (
+          <p className="text-lg leading-relaxed text-muted-foreground">
+            {post.summary}
+          </p>
         )}
 
         {post.body && (
@@ -91,6 +81,10 @@ export default async function PostPage({ params }: PageProps) {
             <PortableText value={post.body} />
           </div>
         )}
+
+        <footer className="flex items-center gap-3 border-t border-border pt-8">
+          <LikeButton slug={slug} />
+        </footer>
       </article>
     </main>
   );

@@ -6,7 +6,7 @@ export const POSTS_QUERY = defineQuery(`
     title,
     "slug": slug.current,
     publishedAt,
-    "summary": array::join(string::split(pt::text(body), "")[0..159], "")
+    "summary": coalesce(summary, array::join(string::split(pt::text(body), "")[0..159], ""))
   }
 `)
 
@@ -16,7 +16,7 @@ export const POST_QUERY = defineQuery(`
     title,
     "slug": slug.current,
     publishedAt,
-    image,
+    summary,
     body
   }
 `)
