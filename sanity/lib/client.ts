@@ -6,5 +6,5 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Pages are statically generated + ISR, so fetch fresh, uncached data
+  useCdn: false, // Pages are statically generated (SSG) at build, so fetch fresh data
 })

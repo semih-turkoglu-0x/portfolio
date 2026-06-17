@@ -5,11 +5,14 @@ import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 
 import { LikeButton } from "@/components/like-button";
+import { siteUrl } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
-// Statically render and revalidate at most once a minute (ISR).
-export const revalidate = 60;
+// Fully static (SSG): every post is pre-rendered at build via
+// generateStaticParams. Unknown slugs 404 instead of rendering on-demand.
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -36,8 +39,24 @@ export async function generateMetadata({
 
   if (!post) return {};
 
+  const title = post.title ?? undefined;
+  const description = post.summary ?? undefined;
+
   return {
     title: `${post.title} — Semih Turkoglu`,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `${siteUrl}/blog/${slug}`,
+      publishedTime: post.publishedAt ?? undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 

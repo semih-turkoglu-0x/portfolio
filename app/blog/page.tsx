@@ -4,8 +4,9 @@ import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
 
-// Statically render and revalidate at most once a minute (ISR).
-export const revalidate = 60;
+// Fully static (SSG): rendered once at build. New posts appear on the next
+// deploy — a Sanity webhook triggers a Vercel rebuild on publish.
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Blog — Semih Turkoglu",
