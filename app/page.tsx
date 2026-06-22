@@ -1,21 +1,39 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
+import { JsonLd } from "@/components/json-ld";
+import { LatestPosts } from "@/components/latest-posts";
 import { Button } from "@/components/ui/button";
+import { siteUrl } from "@/lib/site";
 
 // TODO: swap these placeholders for your real details
 const NAME = "Semih Turkoglu";
-const TAGLINE = "Software engineer";
-const BIO =
-  "I build things for the web and write about what I learn along the way. This is my corner of the internet — part portfolio, part notebook.";
+const TAGLINE = "Software developer";
+const BIO_BEFORE =
+  "I build things for the web and write about what I learn along the way. This is my corner of the internet — part portfolio, part ";
 
 const SOCIALS = [
   { label: "GitHub", href: "https://github.com/semih-turkoglu-0x" },
   { label: "Email", href: "mailto:semih.trkgl99@gmail.com" },
 ];
 
-export default function Home() {
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: NAME,
+  url: siteUrl,
+  jobTitle: TAGLINE,
+  sameAs: SOCIALS.filter((s) => s.href.startsWith("http")).map((s) => s.href),
+};
+
+export default async function Home() {
   return (
     <main className="flex flex-1 items-center px-6 py-24">
+      <JsonLd data={personLd} />
       <section className="mx-auto flex w-full max-w-2xl flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
@@ -25,7 +43,14 @@ export default function Home() {
         </div>
 
         <p className="max-w-prose text-base leading-7 text-muted-foreground">
-          {BIO}
+          {BIO_BEFORE}
+          <Link
+            href="/blog"
+            className="underline underline-offset-4 transition-colors hover:text-foreground"
+          >
+            notebook
+          </Link>
+          .
         </p>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -46,6 +71,8 @@ export default function Home() {
             </Button>
           ))}
         </div>
+
+        <LatestPosts />
       </section>
     </main>
   );

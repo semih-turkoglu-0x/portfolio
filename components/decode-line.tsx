@@ -13,7 +13,7 @@ const toCells = (text: string): Cell[] =>
 
 export function DecodeLine({
   prefix = "I’m a ",
-  roles = ["software engineer", "writer", "perpetual tinkerer"],
+  roles = ["software developer", "perpetual tinkerer"],
   hold = 2600,
 }: {
   prefix?: string;

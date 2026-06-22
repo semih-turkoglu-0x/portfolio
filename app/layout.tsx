@@ -9,7 +9,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const description =
-  "Portfolio and blog of Semih Turkoglu — software engineer & writer.";
+  "Portfolio and blog of Semih Turkoglu — software developer.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

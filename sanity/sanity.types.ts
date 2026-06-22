@@ -190,6 +190,17 @@ export type POSTS_QUERY_RESULT = Array<{
 }>;
 
 // Source: sanity/lib/queries.ts
+// Variable: LATEST_POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...3] {    _id,    title,    "slug": slug.current,    publishedAt,    "summary": coalesce(summary, array::join(string::split(pt::text(body), "")[0..159], ""))  }
+export type LATEST_POSTS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  publishedAt: string | null;
+  summary: string;
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: POST_QUERY
 // Query: *[_type == "post" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    publishedAt,    summary,    body  }
 export type POST_QUERY_RESULT = {
@@ -228,6 +239,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    publishedAt,\n    "summary": coalesce(summary, array::join(string::split(pt::text(body), "")[0..159], ""))\n  }\n': POSTS_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...3] {\n    _id,\n    title,\n    "slug": slug.current,\n    publishedAt,\n    "summary": coalesce(summary, array::join(string::split(pt::text(body), "")[0..159], ""))\n  }\n': LATEST_POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    publishedAt,\n    summary,\n    body\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)].slug.current\n': POST_SLUGS_QUERY_RESULT;
   }

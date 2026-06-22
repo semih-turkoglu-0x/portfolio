@@ -11,6 +11,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "Blog — Semih Turkoglu",
   description: "Writing by Semih Turkoglu.",
+  alternates: { canonical: "/blog" },
 };
 
 function formatDate(value: string) {

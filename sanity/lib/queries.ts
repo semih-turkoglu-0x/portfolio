@@ -10,6 +10,16 @@ export const POSTS_QUERY = defineQuery(`
   }
 `)
 
+export const LATEST_POSTS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    "summary": coalesce(summary, array::join(string::split(pt::text(body), "")[0..159], ""))
+  }
+`)
+
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     _id,

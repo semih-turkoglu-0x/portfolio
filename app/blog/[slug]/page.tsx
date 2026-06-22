@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { PortableText } from "@portabletext/react";
 
+import { JsonLd } from "@/components/json-ld";
 import { LikeButton } from "@/components/like-button";
 import { siteUrl } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
@@ -45,6 +46,7 @@ export async function generateMetadata({
   return {
     title: `${post.title} — Semih Turkoglu`,
     description,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: "article",
       title,
@@ -66,8 +68,22 @@ export default async function PostPage({ params }: PageProps) {
 
   if (!post) notFound();
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title ?? undefined,
+    description: post.summary ?? undefined,
+    datePublished: post.publishedAt ?? undefined,
+    dateModified: post.publishedAt ?? undefined,
+    image: `${siteUrl}/blog/${slug}/opengraph-image`,
+    url: `${siteUrl}/blog/${slug}`,
+    mainEntityOfPage: `${siteUrl}/blog/${slug}`,
+    author: { "@type": "Person", name: "Semih Turkoglu", url: siteUrl },
+  };
+
   return (
     <main className="flex flex-1 items-start px-6 py-24">
+      <JsonLd data={articleLd} />
       <article className="mx-auto flex w-full max-w-2xl flex-col gap-10">
         <div className="flex flex-col gap-4">
           <Link

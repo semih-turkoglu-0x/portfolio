@@ -4,7 +4,7 @@ import { sparkDataUri } from "@/lib/og-spark";
 
 // Default social card for the whole site (overridden by closer image files,
 // e.g. app/blog/[slug]/opengraph-image.tsx). Generated at build (SSG).
-export const alt = "Semih Turkoglu — software engineer & writer";
+export const alt = "Semih Turkoglu — software developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -36,7 +36,7 @@ export default function Image() {
             Semih Turkoglu
           </div>
           <div style={{ fontSize: 36, color: "#a1a1a1" }}>
-            {"Software engineer & writer"}
+            {"Software developer"}
           </div>
         </div>
         <div style={{ fontSize: 28, color: "#737373" }}>semihturkoglu.be</div>
